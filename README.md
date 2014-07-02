@@ -1,13 +1,10 @@
-## How to turn a screencast movie file into an animated GIF
+## Turn a movie into an animated GIF, with just the command-line
 
 ![output.gif](output.gif)
 
-This is a quickie walkthrough on how to take a `.mov` file (e.g. Apple QuickTime format) and turn it into an animated GIF. The hypothetical use case is:
+This is a quickie walkthrough on how to take a `.mov` file (e.g. Apple QuickTime format) and turn it into an animated GIF. But this is more of a walkthrough on __how to use the command-line__ to perform an ostensibly visually-oriented task. 
 
-1. You've created a narrated screencast, such as a tutorial on how to use a web browser.
-2. You want to provide an accompanying _write-up_ for people (and search-engines) who prefer to peruse the content of the tutorial, rather than watch the whole thing in a linear sequence. And also, you want your written tutorial to show certain excerpts from your video, without having to re-record those bits specifically.
-
-> Note: I realize the irony of a text-only walkthrough to explain the process of creating a visual explainer, but I'll spiffy this up some other time. Ping the author, Dan Nguyen, at [@dancow](//twitter.com/dancow)
+Think of it as [touch typing](http://en.wikipedia.org/wiki/Touch_typing, but for batch digital image manipulation.
 
 
 Here's the big picture of what we'll do:
@@ -20,7 +17,16 @@ A movie's animation is, after all, [just an optical illusion caused by flipping 
 
 Instead of doing this conversion via a clunky point-and-click program or web-app, we'll take this as an opportunity to jump into the __command line__ for more complete, concise control.
 
-### Thoughts
+### Why...?
+
+A hypothetical use case is:
+
+1. You've created a narrated screencast, such as a tutorial on how to use a web browser.
+2. You want to provide an accompanying _write-up_ for people (and search-engines) who prefer to peruse the content of the tutorial, rather than watch the whole thing in a linear sequence. And also, you want your written tutorial to show certain excerpts from your video, without having to re-record those bits specifically.
+
+> Note: I realize the irony of a text-only walkthrough to explain the process of creating a visual explainer, but I'll spiffy this up some other time. Ping the author, Dan Nguyen, at [@dancow](//twitter.com/dancow)
+> 
+
 
 1. __Why GIFs?__
   In theory, there's no reason why your written tutorial can't be interspersed with mini-video-clips, cut from the main reel. However, GIFs are simply more __portable__ than video. You can paste them into any old webpage and not have to worry if it supports HTML5 playback. It just _works_...because it is such an old technology. Also, for animated-visuals that show a lot of text (such as a screencast on how to use a spreadsheet), GIFs will typically render text more crisply.
@@ -73,7 +79,7 @@ For convenience's sake, I've created a short video showing how to create and del
 Here are the quick steps to convert `my-screencast.mov` to `output.gif`. I've inlcuded some steps that satisfy the OCD-file-user in me, by saving temp files in a subdirectory and so forth. I've also inlcuded as few as customization options as possible. This is just a quick and dirty example, you can figure out the tweaks on your own.
 
 
-##### Step 1. Get with your movie file, via the command-line
+#### Step 1. Get with your movie file, via the command-line
 
 Let's go to the directory where `my-screencast.mov` exists via the shell, since that's where we'll be doing most of our work:
 
@@ -86,7 +92,7 @@ That way, when you open Terminal, you can just do this:
      $ cd ~/Downloads
 
 
-##### Step 2. Create a sub-directory to work from
+#### Step 2. Create a sub-directory to work from
 
 Just so we don't have a messy `Downloads` directory, let's make a sub-directory in which we'll do our movie/GIF-making from:
 
@@ -105,7 +111,7 @@ Then change to that subdirectory so that we're in same folder as our movie file:
       
 
 
-##### Step 3. Create another subdirectory for all the still-images
+#### Step 3. Create another subdirectory for all the still-images
 
 In the conersion process, we'll be generating a ton of new still-image files. Rather than crowd our working space with hundreds/thousands of files, let's just make a subdirectory named `frames` to dump things into:
 
@@ -115,7 +121,7 @@ In the conersion process, we'll be generating a ton of new still-image files. Ra
 That's it. **Don't** change into this directory
 
 
-##### Step 4. Convert a movie into many still-images
+#### Step 4. Convert a movie into many still-images
 
 
 We use `ffmpeg` on `my-screencast.mov` to convert `my-screencast.mov` into its many component still-frame image files. 
@@ -143,7 +149,7 @@ If you list the contents of your `frames` subdirectory, you'll see this:
       image.00003.png image.00038.png
       image.00004.png image.00039.png
 
-##### Step 5. Combine the still-images into an animated GIF
+#### Step 5. Combine the still-images into an animated GIF
 
 The __ImageMagick__ library gives us the `convert` [command-line-tool](http://www.imagemagick.org/script/convert.php), which does as it says &ndash; takes an _existing_ image file and turns it into _new_ image file. We can even change the file _format_, e.g. from PNG to GIF, simply by specifying the file extensions in the _existing_ and _new_ filenames:
 
