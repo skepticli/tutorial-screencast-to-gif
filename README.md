@@ -1,28 +1,40 @@
 ## How to turn a screencast movie file into an animated GIF
 
+![output.gif](output.gif)
+
+This is a quickie walkthrough on how to take a `.mov` file (e.g. Apple QuickTime format) and turn it into an animated GIF. The hypothetical use case is:
+
+1. You've created a narrated screencast, such as a tutorial on how to use a web browser.
+2. You want to provide an accompanying _write-up_ for people (and search-engines) who prefer to peruse the content of the tutorial, rather than watch the whole thing in a linear sequence. And also, you want your written tutorial to show certain excerpts from your video, without having to re-record those bits specifically.
+
 > Note: I realize the irony of a text-only walkthrough to explain the process of creating a visual explainer, but I'll spiffy this up some other time. Ping the author, Dan Nguyen, at [@dancow](//twitter.com/dancow)
 
-This is a quickie walkthrough on how to take a `.mov` file (e.g. Apple QuickTime format) and turn it into an animated GIF. 
 
 Here's the big picture of what we'll do:
 
-1. Make a `.mov` file
+1. Make a `.mov` file (e.g. a QuickTime movie)
 2. Slice it up into many image files, one for each animation frame.
 3. Collect all those image files and stuff them into an animated GIF
 
 A movie's animation is, after all, [just an optical illusion caused by flipping through a bunch of still images](http://en.wikipedia.org/wiki/Film_frame).
 
-Instead of a clunky point-and-click program or web-app (and there are a few of these, with varying quality and cost), we'll take this as an opportunity to jump into the command line for more complete, concise control.
+Instead of doing this conversion via a clunky point-and-click program or web-app, we'll take this as an opportunity to jump into the __command line__ for more complete, concise control.
+
+### Thoughts
+
+1. __Why GIFs?__
+  In theory, there's no reason why your written tutorial can't be interspersed with mini-video-clips, cut from the main reel. However, GIFs are simply more __portable__ than video. You can paste them into any old webpage and not have to worry if it supports HTML5 playback. It just _works_...because it is such an old technology. Also, for animated-visuals that show a lot of text (such as a screencast on how to use a spreadsheet), GIFs will typically render text more crisply.
+
+2. __Why the command-line?__ 
+   The steps in this tutorial are short and simple (and two of them involve just changing directories)...but if you've never used the command-line before, this may seem like a lot more work than just uploading to a web-service [or using Licecap](http://www.cockos.com/licecap/).
+
+   Ignoring the specific tradeoffs in using those services, the command-line simply promises more _flexibility_ and _power_ in the medium-to-long term. Being able to create animated GIFs, via the process documented here, is simply a result of combining two very useful programs. So while the command line may be harder to learn, _initially_, it will be by far the best investment in time, if you want to do more aristically/journalistically creative things...at _scale_.
+
+   So if you're new to the command-line, don't see this tutorial as a tutorial on how to create animated GIFs. See it as an introduction to the command-line, and to two very powerful image/video manipulation tools that can be tweaked for all varieties and volumes of data-seeking/art-mashup purposes.
 
 
-### Software
 
-> Note: This process was tested on: 
-> - Mac OS X 10.9.3 (Mavericks)
-> - ffmpeg-2.2.4
-> - imagemagick-6.8.9-1
-> 
-
+### Software pre-requisites
 
 The process detailed here is for UNIX-like operating systems, e.g. Mac OS X and Linux. We'll be using two popular libraries to do the heavy-lifting:
 
@@ -38,6 +50,13 @@ For example, Ubuntu-flavored Linux:
 On Mac OS X, make it easy on yourself [by installing Homebrew](http://brew.sh/). Then run:
     
     $ brew install imagemagick ffmpeg
+
+> Note: This tutorial was tested on: 
+> - Mac OS X 10.9.3 (Mavericks)
+> - ffmpeg-2.2.4
+> - imagemagick-6.8.9-1
+> 
+
 
 
 ### Movie-making
@@ -144,10 +163,12 @@ And we're done! Here's what my `output.gif` looks like:
 
 ### Custom conversions
 
-There are many ways to tinker with the flags for both `convert` and `ffmpeg` to get the quality and filesize that you want. You can get pretty far with the command-line, especially with a little piping, to create animated GIFs with dynamically-delayed and resized frames (e.g. to "pause" or "zoom", even if the original screencast didn't have such transitions), but at some point, you'll probably want to make a nice Ruby/Python/Perl wrapper if you plan on industriously-creating animated-GIF-screencasts or what have you. 
+There are many ways to tinker with the flags for both `convert` and `ffmpeg` to get the quality and filesize that you want. You can get pretty far with the command-line, especially with a little piping, to create animated GIFs with dynamically-delayed and resized frames (e.g. to "pause" or "zoom", even if the original screencast didn't have such transitions), but at some point, you'll probably want to make a nice Ruby/Python/Perl wrapper if you plan on industriously-creating animated-GIF-screencasts or what have you.
+
+Making animated-GIFs is a fun venture. But again, keep your mind open to the potential non-GIF related uses for `ffmpeg` and `convert`. For example, I like converting the output of `ffmpeg` with [Tesseract](https://code.google.com/p/tesseract-ocr/), the command-line optical-character-recognition program, for cases when video clips shots of (legible) documents. Getting comfortable with the command-line allows for limitless custom applications.
 
 
-Here are some resources:
+Here are some resources for now:
 
 - [How to record quick, easy screencast videos with Mac OSX](http://thenextweb.com/apple/2011/01/15/how-to-record-quick-easy-screencast-videos-with-mac-osx/)
 - [How do I convert a video to GIF using ffmpeg, with reasonable quality?](http://superuser.com/questions/556029/how-do-i-convert-a-video-to-gif-using-ffmpeg-with-reasonable-quality)
