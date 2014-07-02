@@ -71,16 +71,12 @@ That way, when you open Terminal, you can just do this:
 
 Just so we don't have a messy `Downloads` directory, let's make a sub-directory in which we'll do our movie/GIF-making from:
 
-```
       $ mkdir my-test
-```
 
 
 Copy our movie file into this new subdirectory:
 
-```
       $ cp my-screencast.mov my-test/
-```
 
 
 Then change to that subdirectory so that we're in same folder as our movie file:
@@ -122,13 +118,11 @@ An explanation of the __flags__ are in order here:
 
 If you list the contents of your `frames` subdirectory, you'll see this:
 
-  ```
-  $ ls frames
-    my-screencast-frame.00001.png my-screencast-frame.00036.png
-    my-screencast-frame.00002.png my-screencast-frame.00037.png
-    my-screencast-frame.00003.png my-screencast-frame.00038.png
-    my-screencast-frame.00004.png my-screencast-frame.00039.png
-  ```
+    $ ls frames
+      my-screencast-frame.00001.png my-screencast-frame.00036.png
+      my-screencast-frame.00002.png my-screencast-frame.00037.png
+      my-screencast-frame.00003.png my-screencast-frame.00038.png
+      my-screencast-frame.00004.png my-screencast-frame.00039.png
 
 ##### Step 5. Combine the still-images into an animated GIF
 
