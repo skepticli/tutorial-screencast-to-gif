@@ -46,7 +46,7 @@ You can use pretty much any popular movie-format for this exercise. If you're on
 
 Be warned: GIF files can be __massive__. If you run through this exercise on a 10-minute fullscreen video, using the default options (i.e. not downsizing the video or skipping a bunch of frames), you will likely crash your computer. Start with a very small, very short file. Then, as you tinker around with the code, try out bigger files.
 
-For convenience's sake, I've created a short video showing Google's URL autocomplete-in-action (yay, exiting), which is in the repo and can be [downloaded at this link](my-screencast.mov).
+For convenience's sake, I've created a short video showing how to create and delete a file via OS X's commandline (yes, exciting, I know). The video file is in the repo. It can also [be downloaded directly via this (temporary) link](//cdn.rawgit.com/dannguyen/screencast-to-gif-tutorial/master/my-screencast.mov).
 
 
 ### Command-line conversion
@@ -101,16 +101,16 @@ That's it. **Don't** change into this directory
 
 We use `ffmpeg` on `my-screencast.mov` to convert `my-screencast.mov` into its many component still-frame image files. 
 
-    $ ffmpeg -i my-screencast.mov -r 3 frames/my-screencast-frame.%05d.png
+    $ ffmpeg -i my-screencast.mov -r 1 frames/image.%05d.png
 
 An explanation of the __flags__ are in order here:
 
 - `-i inputfilename.xyz` &ndash; this specifie the __source__'s filename, e.g the movie file
-- `-r [SOME INTEGER]` &ndash; for __frames-per-second__, e.g. 30 fps would result in 30 still-images per-second-of-video. If you leave out the `-r` flag, `ffmpeg` will just use the movie-files frame-rate. 
+- `-r [SOME INTEGER]` &ndash; for __frames-per-second__, e.g. 20 fps would result in 20 still-images per-second-of-video. If you leave out the `-r` flag, `ffmpeg` will just use the movie-files frame-rate. 
       
   Example: Another way to think of it: _Decreasing_ the number given to `-r` will _decrease_ the number of image files created, and thus, _decrease_ the size of the final animated GIF. 
 
-- The final argument, e.g. `frames/my-screencast-frame.%05d.png`, is the _pattern_ that describes the filename for each subsequent image-still (remember, there could be dozens, hundreds, thousads of still-frames from a video). 
+- The final argument, e.g. `frames/image.%05d.png`, is the _pattern_ that describes the filename for each subsequent image-still (remember, there could be dozens, hundreds, thousads of still-frames from a video). 
 
   The file extension could've be `gif`  or `jpg` or any other popular image format. It doesn't matter as the `frames/` subdirectory is just a temporary holding place for the image files, which will all eventually be combined into one big GIF.
   
@@ -119,10 +119,10 @@ An explanation of the __flags__ are in order here:
 If you list the contents of your `frames` subdirectory, you'll see this:
 
     $ ls frames
-      my-screencast-frame.00001.png my-screencast-frame.00036.png
-      my-screencast-frame.00002.png my-screencast-frame.00037.png
-      my-screencast-frame.00003.png my-screencast-frame.00038.png
-      my-screencast-frame.00004.png my-screencast-frame.00039.png
+      image.00001.png image.00036.png
+      image.00002.png image.00037.png
+      image.00003.png image.00038.png
+      image.00004.png image.00039.png
 
 ##### Step 5. Combine the still-images into an animated GIF
 
@@ -133,10 +133,10 @@ The __ImageMagick__ library gives us the `convert` [command-line-tool](http://ww
 
 Our specific use-case will look like this:
 
-    $ convert frames/my-screencast-frame.*.png output.gif
+    $ convert frames/image.*.png output.gif
 
 
-The wildcard operator, `*`, will pluck all files that look like `frames/my-screencast-filename.00WHATEVER.png` and feed them into the `convert` program. Lucky for us, `convert` knows that a glob of files can be turned into a single animated GIF.
+The wildcard operator, `*`, will pluck all files that look like `frames/image.00WHATEVER.png` and feed them into the `convert` program. Lucky for us, `convert` knows that a glob of files can be turned into a single animated GIF.
 
 And we're done! Here's what my `output.gif` looks like:
 
