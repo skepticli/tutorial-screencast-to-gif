@@ -101,14 +101,14 @@ That's it. **Don't** change into this directory
 
 We use `ffmpeg` on `my-screencast.mov` to convert `my-screencast.mov` into its many component still-frame image files. 
 
-    $ ffmpeg -i my-screencast.mov -r 5 frames/my-screencast-frame.%05d.png
+    $ ffmpeg -i my-screencast.mov -r 3 frames/my-screencast-frame.%05d.png
 
 An explanation of the __flags__ are in order here:
 
 - `-i inputfilename.xyz` &ndash; this specifie the __source__'s filename, e.g the movie file
-- `-r [SOME INTEGER]` &ndash; hundredths of a second, per frame. e.g. __60__ frames per second would be 1.66666, but you'd want to round that up to __2__. If you leave out the `-r` flag, `ffmpeg` will just use the movie-files frame-rate. 
+- `-r [SOME INTEGER]` &ndash; for __frames-per-second__, e.g. 30 fps would result in 30 still-images per-second-of-video. If you leave out the `-r` flag, `ffmpeg` will just use the movie-files frame-rate. 
       
-  Example: by specifying `5` &ndash; e.g. a framerate of 20fps &ndash; we end up with a _reasonable_ number of still-images. Another way to think of it: _Increasing_ the number given to `-r` will _decrease_ the number of image files created. 
+  Example: Another way to think of it: _Decreasing_ the number given to `-r` will _decrease_ the number of image files created, and thus, _decrease_ the size of the final animated GIF. 
 
 - The final argument, e.g. `frames/my-screencast-frame.%05d.png`, is the _pattern_ that describes the filename for each subsequent image-still (remember, there could be dozens, hundreds, thousads of still-frames from a video). 
 
