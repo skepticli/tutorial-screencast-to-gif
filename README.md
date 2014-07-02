@@ -4,7 +4,7 @@
 
 This is a quickie walkthrough on how to take a `.mov` file (e.g. Apple QuickTime format) and turn it into an animated GIF. 
 
-Here's the big picture of what we'll learn to do:
+Here's the big picture of what we'll do:
 
 1. Make a `.mov` file
 2. Slice it up into many image files, one for each animation frame.
@@ -21,7 +21,7 @@ Instead of a clunky point-and-click program or web-app (and there are a few of t
 > - Mac OS X 10.9.3 (Mavericks)
 > - ffmpeg-2.2.4
 > - imagemagick-6.8.9-1
-
+> 
 
 
 The process detailed here is for UNIX-like operating systems, e.g. Mac OS X and Linux. We'll be using two popular libraries to do the heavy-lifting:
@@ -51,50 +51,76 @@ For convenience's sake, I've created a short video showing Google's URL autocomp
 
 ### Command-line conversion
 
-OK, so assuming you have a file named `my-screencast.mov` somewhere on your computer, it's time to pop open your __shell__ (i.e. the __Terminal.app__ if you're on OSX). Navigate to wherever your `my-screencast.mov` file exists.
+Here are the quick steps to convert `my-screencast.mov` to `output.gif`. I've inlcuded some steps that satisfy the OCD-file-user in me, by saving temp files in a subdirectory and so forth. I've also inlcuded as few as customization options as possible. This is just a quick and dirty example, you can figure out the tweaks on your own.
+
+
+##### Step 1. Get with your movie file, via the command-line
+
+Let's go to the directory where `my-screencast.mov` exists via the shell, since that's where we'll be doing most of our work:
+
+OK, so assuming you have a file named `my-screencast.mov` somewhere on your computer, pop open your __shell__ (i.e. the __Terminal.app__ if you're on OSX). Then, `cd` to whatever __directory__ your `my-screencast.mov` file exists.
 
 If you're on a Mac, to make it easy on yourself, just move `my-screencast.mov` (via however you typically move files in your operating system, e.g. __Finder__) into your user __Downloads__ folder.
 
 That way, when you open Terminal, you can just do this:
 
-``` 
      $ cd ~/Downloads
+
+
+##### Step 2. Create a sub-directory to work from
+
+Just so we don't have a messy `Downloads` directory, let's make a sub-directory in which we'll do our movie/GIF-making from:
+
+```
+      $ mkdir my-test
 ```
 
 
-Here are the quick steps to convert `my-screencast.mov` to `output.gif`. I've inlcuded some steps that satisfy the OCD-file-user in me, by saving temp files in a subdirectory and so forth. I've also inlcuded as few as customization options as possible. This is just a quick and dirty example, you can figure out the tweaks on your own.
+Copy our movie file into this new subdirectory:
 
-### Step-by-step
+```
+      $ cp my-screencast.mov my-test/
+```
 
 
-1. So...navigate to the directory where `my-screencast.mov` exists.
-2. Create a directory somewhere and move the file to it:
-      ```
-      $ mkdir my-test
-      $ mv my-screencast.mov my-test/
+Then change to that subdirectory so that we're in same folder as our movie file:
+
+      
       $ cd my-test
-      ```
+      
 
-3. While we're in the new `my-test` subdirectory, create a `frames` directory in which the movie stills/images can be temporarily stored:
 
-    ```
-    $ mkdir frames
-    ```
+##### Step 3. Create another subdirectory for all the still-images
 
-4. Now we run `ffmpeg` on `my-screencast.mov` to convert it into individually numbered image files:
+In the conersion process, we'll be generating a ton of new still-image files. Rather than crowd our working space with hundreds/thousands of files, let's just make a subdirectory named `frames` to dump things into:
 
-   ```
-   $ ffmpeg -i my-screencast.mov -r 5 frames/my-screencast-frame.%05d.png
-   ```
+    
+    $ mkdir frames    
 
-  An explanation of the __flags__ are in order here:
+That's it. **Don't** change into this directory
 
-  - `-i inputfilename.xyz` &ndash; this specifies the source movie filename
-  - `-r [SOME INTEGER]` &ndash; hundredths of a second, per frame. e.g. 60 frames per second would be 1.66666, but you'd want to round that up to 2. If you leave out the `-r` flag, `ffmpeg` will just use the movie-files frame-rate. By specifying `5` &ndash; e.g. a framerate of 20fps &ndash; we end up with a _reasonable_ number of still-images. Another way to think of it: _Increasing_ the number given to `-r` will _decrease_ the number of image files created. 
-  - 
-The final argument, e.g. `frames/my-screencast-frame.%05d.png`, is the _pattern_ that describes the filename for each subsequent image-still (remember, there could be dozens, hundreds, thousads of still-frames from a video). The file extension could've be `gif`  or `jpg` or any other popular image format. It doesn't matter as the `frames/` subdirectory is just a temporary holding place for the image files, which will all eventually be combined into one big GIF.
+
+##### Step 4. Convert a movie into many still-images
+
+
+We use `ffmpeg` on `my-screencast.mov` to convert `my-screencast.mov` into its many component still-frame image files. 
+
+    $ ffmpeg -i my-screencast.mov -r 5 frames/my-screencast-frame.%05d.png
+
+An explanation of the __flags__ are in order here:
+
+- `-i inputfilename.xyz` &ndash; this specifie the __source__'s filename, e.g the movie file
+- `-r [SOME INTEGER]` &ndash; hundredths of a second, per frame. e.g. __60__ frames per second would be 1.66666, but you'd want to round that up to __2__. If you leave out the `-r` flag, `ffmpeg` will just use the movie-files frame-rate. 
+      
+  Example: by specifying `5` &ndash; e.g. a framerate of 20fps &ndash; we end up with a _reasonable_ number of still-images. Another way to think of it: _Increasing_ the number given to `-r` will _decrease_ the number of image files created. 
+
+- The final argument, e.g. `frames/my-screencast-frame.%05d.png`, is the _pattern_ that describes the filename for each subsequent image-still (remember, there could be dozens, hundreds, thousads of still-frames from a video). 
+
+  The file extension could've be `gif`  or `jpg` or any other popular image format. It doesn't matter as the `frames/` subdirectory is just a temporary holding place for the image files, which will all eventually be combined into one big GIF.
   
-  If you list the contents of your `frames` subdirectory, you'll see this:
+
+
+If you list the contents of your `frames` subdirectory, you'll see this:
 
   ```
   $ ls frames
@@ -104,13 +130,25 @@ The final argument, e.g. `frames/my-screencast-frame.%05d.png`, is the _pattern_
     my-screencast-frame.00004.png my-screencast-frame.00039.png
   ```
 
-5. Run `convert` &ndash; which comes to us via ImageMagick &ndash; and allows us to convert from one image format to another...in this case, `png` to `gif`. If you give `convert` a wildcard, such that many `png` files are passed in, then `convert` knows how to combine them into an animated GIF:
+##### Step 5. Combine the still-images into an animated GIF
 
-  ```
-  $ convert frames/my-screencast-frame.*.png output.gif
+The __ImageMagick__ library gives us the `convert` [command-line-tool](http://www.imagemagick.org/script/convert.php), which does as it says &ndash; takes an _existing_ image file and turns it into _new_ image file. We can even change the file _format_, e.g. from PNG to GIF, simply by specifying the file extensions in the _existing_ and _new_ filenames:
 
-  ```
+    $ convert existing_image.png new_image.gif
 
+
+Our specific use-case will look like this:
+
+    $ convert frames/my-screencast-frame.*.png output.gif
+
+
+The wildcard operator, `*`, will pluck all files that look like `frames/my-screencast-filename.00WHATEVER.png` and feed them into the `convert` program. Lucky for us, `convert` knows that a glob of files can be turned into a single animated GIF.
+
+And we're done! Here's what my `output.gif` looks like:
+
+![output.gif](output.gif)
+
+### Custom conversions
 
 There are many ways to tinker with the flags for both `convert` and `ffmpeg` to get the quality and filesize that you want. You can get pretty far with the command-line, especially with a little piping, to create animated GIFs with dynamically-delayed and resized frames (e.g. to "pause" or "zoom", even if the original screencast didn't have such transitions), but at some point, you'll probably want to make a nice Ruby/Python/Perl wrapper if you plan on industriously-creating animated-GIF-screencasts or what have you. 
 
