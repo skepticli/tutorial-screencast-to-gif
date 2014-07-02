@@ -4,7 +4,7 @@
 
 This is a quickie walkthrough on how to take a `.mov` file (e.g. Apple QuickTime format) and turn it into an animated GIF. But this is more of a walkthrough on __how to use the command-line__ to perform an ostensibly visually-oriented task. 
 
-Think of it as [touch typing](http://en.wikipedia.org/wiki/Touch_typing, but for batch digital image manipulation.
+Think of it as [touch typing](http://en.wikipedia.org/wiki/Touch_typing), but for batch digital image manipulation.
 
 
 Here's the big picture of what we'll do:
@@ -24,7 +24,7 @@ A hypothetical use case is:
 1. You've created a narrated screencast, such as a tutorial on how to use a web browser.
 2. You want to provide an accompanying _write-up_ for people (and search-engines) who prefer to peruse the content of the tutorial, rather than watch the whole thing in a linear sequence. And also, you want your written tutorial to show certain excerpts from your video, without having to re-record those bits specifically.
 
-> Note: I realize the irony of a text-only walkthrough to explain the process of creating a visual explainer, but I'll spiffy this up some other time. Ping the author, Dan Nguyen, at [@dancow](//twitter.com/dancow)
+> Note: I realize the irony of a text-only walkthrough to explain the process of creating a visual explainer, but I'll spiffy the step-by-step at a later date.
 > 
 
 
