@@ -192,7 +192,9 @@ The resulting GIF is the same filesize as in the previous example, except it run
 
     $ ffmpeg -i my-screencast.mov -r 20 -ss 00:00:11 -t 00:00:02 frames/image-excerpt.%05d.png
 
-The `-ss` flag specifies where to __start__ the clip. And `-t` specifies the __duration__ of the clip. So in the above example, we'll be cutting a 2-second clip, starting at the 11-second mark. Note that I've also switched in `-r 20`, which gets us 20 frames per seconds. So, a 2-second-clip at 20 fps, will result in __40__ image files in the `frames/` subdirectory.
+The `-ss` flag specifies where to __start__ the clip. And `-t` specifies the __duration__ of the clip. So in the above example, we'll be cutting a 2-second clip, starting at the __11-second__ mark. Note that I've also switched in `-r 20`, which gets us __20 frames__ per second. 
+
+Thus, a 2-second-clip, processed at 20 fps, will create __40__ image files in the `frames/` subdirectory.
 
 And running `convert` (without the `-delay`) results in this GIF:
   
@@ -221,9 +223,9 @@ And there we have it:
 
 You can get pretty far with the command-line, especially with a little piping, to create animated GIFs at an industrial, customized scale (why not make versions with all the color combinations of the rainbow, for starters?).
 
-So that's enough with funky examples for now, even though I think it'd be fun to demonstrate how to dynamically-delaye and resize frames (e.g. to "pause" or "zoom", even if the original screencast didn't have such transitions). Sure, you're probably thinking, well, I can do that in Final Cut...but that misses the point of doing things with a little mathematical reasoning and pure typing...and also, without having to pay for Final Cut.
+So that's enough with funky examples for now, even though I think it'd be fun to demonstrate how to dynamically-delaye and resize frames (e.g. to "pause" or "zoom", even if the original screencast didn't have such transitions). Sure, you're probably thinking, well, _I can do that in Final Cut, like an adult_...but that misses the point of how fun it is to solve problems with a little logic and without carpal-tunnel-causing-mouse-clicking. And also, without having to pay for Final Cut.
 
-(Though realistically, I recommend doing wrapping these compllicated scripts in nice Ruby/Python/Perl wrapper, to avoid situations where you accidentally overwrite your filesystem because of a misplaced quote-mark)
+(Though realistically, even if you're _good_ at command-line scripting, I recommend doing wrapping these compllicated scripts in nice Ruby/Python/Perl wrapper, to avoid situations where [you accidentally wipe out your hard drive](http://thenextweb.com/media/2012/05/21/how-pixars-toy-story-2-was-deleted-twice-once-by-technology-and-again-for-its-own-good/) because of a misplaced quote-mark)
 
 Making animated-GIFs is a fun venture. But again, keep your mind open to the potential non-GIF related uses for `ffmpeg` and `convert`. For example, I like converting the output of `ffmpeg` with [Tesseract](https://code.google.com/p/tesseract-ocr/), the command-line optical-character-recognition program, for cases when video clips shots of (legible) documents. Getting comfortable with the command-line allows for limitless custom applications.
 
