@@ -163,12 +163,71 @@ And we're done! Here's what my `output.gif` looks like:
 
 ### Custom conversions
 
-There are many ways to tinker with the flags for both `convert` and `ffmpeg` to get the quality and filesize that you want. You can get pretty far with the command-line, especially with a little piping, to create animated GIFs with dynamically-delayed and resized frames (e.g. to "pause" or "zoom", even if the original screencast didn't have such transitions), but at some point, you'll probably want to make a nice Ruby/Python/Perl wrapper if you plan on industriously-creating animated-GIF-screencasts or what have you.
+There are many ways to tinker with the flags for both `convert` and `ffmpeg` to get the quality and filesize that you want. Now that you've seen how easy it is to run those programs, it's just a matter of reading the (admittedly initimidating) documentation for [ffmpeg](https://ffmpeg.org/ffmpeg.html) and [imagemagick](http://www.imagemagick.org/script/convert.php)
+
+
+Here's some quick examples of modifications:
+
+
+##### Add a delay in the GIF animation
+
+The resulting GIF from my screencast is too fast to actually comprehend...this is because I told `ffmpeg` to sample just __one frame per second__, with the flag, `-r 1`:
+
+    $ ffmpeg -i my-screencast.mov -r 1 frames/image.%05d.png
+
+The natural tweak would be to increase that number to something like 5 or 10...but that doesn't really add much to the GIF, besides a smoother animation, and the cost is a much, _much_ larger GIF.
+
+So instead, let's tweak how we run `convert`. With `convert`, there is a `delay` flag which specifies the number of _hundreds-of-a-second_ to pause between each frame. So, with the same number of frame-grabs from our 1-fps conversion of the `my-screencast.mov`, let's slow the GIF down by putting a _half a second_ delay between each frame in the GIF:
+
+     convert -delay 50 frames/image.*.png output-half-sec-delay.gif
+
+The resulting GIF is the same filesize as in the previous example, except it runs for much longer:
+
+![output-half-sec-delay.gif](output-half-sec-delay.gif)
+
+
+##### Excerpt the video to be animated
+
+`ffmpeg` takes in optional flags to allow us to cut just a piece from the entire video:
+
+    $ ffmpeg -i my-screencast.mov -r 20 -ss 00:00:11 -t 00:00:02 frames/image-excerpt.%05d.png
+
+The `-ss` flag specifies where to __start__ the clip. And `-t` specifies the __duration__ of the clip. So in the above example, we'll be cutting a 2-second clip, starting at the 11-second mark. Note that I've also switched in `-r 20`, which gets us 20 frames per seconds. So, a 2-second-clip at 20 fps, will result in __40__ image files in the `frames/` subdirectory.
+
+And running `convert` (without the `-delay`) results in this GIF:
+  
+    convert frames/image-excerpt.*.png output-2-sec.gif
+
+Check out the smoother animation:
+
+![output-2sec.gif](output-2sec.gif)
+
+
+##### Change the image color
+
+Boy is my Terminal a drab color. But I really don't want to re-record that video...so, if the _output_ of `ffmpeg` is just a bunch of image files...why don't I just use `convert` to turn those image pixels into a different shade?
+
+Assuming the still-images exist as per the original example (e.g. 1 frame-per-second), let's run `convert`, sans the `delay`, but with the `-negate` flag:
+
+    $ convert -negate frames/image.*.png output-inverted.gif
+
+And there we have it:
+
+![output-inverted.gif](output-inverted.gif)
+
+
+---------
+
+
+You can get pretty far with the command-line, especially with a little piping, to create animated GIFs at an industrial, customized scale (why not make versions with all the color combinations of the rainbow, for starters?).
+
+So that's enough with funky examples for now, even though I think it'd be fun to demonstrate how to dynamically-delaye and resize frames (e.g. to "pause" or "zoom", even if the original screencast didn't have such transitions). Sure, you're probably thinking, well, I can do that in Final Cut...but that misses the point of doing things with a little mathematical reasoning and pure typing...and also, without having to pay for Final Cut.
+
+(Though realistically, I recommend doing wrapping these compllicated scripts in nice Ruby/Python/Perl wrapper, to avoid situations where you accidentally overwrite your filesystem because of a misplaced quote-mark)
 
 Making animated-GIFs is a fun venture. But again, keep your mind open to the potential non-GIF related uses for `ffmpeg` and `convert`. For example, I like converting the output of `ffmpeg` with [Tesseract](https://code.google.com/p/tesseract-ocr/), the command-line optical-character-recognition program, for cases when video clips shots of (legible) documents. Getting comfortable with the command-line allows for limitless custom applications.
 
-
-Here are some resources for now:
+I've got some ideas for fun additions to this already convuluted tutorial. For now, here are some other resources:
 
 - [How to record quick, easy screencast videos with Mac OSX](http://thenextweb.com/apple/2011/01/15/how-to-record-quick-easy-screencast-videos-with-mac-osx/)
 - [How do I convert a video to GIF using ffmpeg, with reasonable quality?](http://superuser.com/questions/556029/how-do-i-convert-a-video-to-gif-using-ffmpeg-with-reasonable-quality)
